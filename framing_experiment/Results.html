@@ -1,0 +1,325 @@
+{% block title %}Ihre Ergebnisse{% endblock %}
+
+{% block content %}
+
+{% if high_usability %}
+<!-- HOHE USABILITY VERSION -->
+<style>
+    .results-container-beautiful {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .results-content {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+    }
+    .results-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .results-header h1 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+    .total-score-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        margin: 30px 0;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+    .total-score-box .score-label {
+        font-size: 1.2em;
+        opacity: 0.9;
+        margin-bottom: 10px;
+    }
+    .total-score-box .score-value {
+        font-size: 4em;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .total-score-box .score-max {
+        font-size: 1.1em;
+        opacity: 0.8;
+    }
+    .results-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 30px 0;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .results-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    .results-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+    .results-table td {
+        padding: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        background: white;
+    }
+    .results-table tbody tr:hover {
+        background: #f8f9ff;
+    }
+    .results-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    .score-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.95em;
+    }
+    .score-excellent {
+        background: #d4edda;
+        color: #155724;
+    }
+    .score-good {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    .score-ok {
+        background: #fff3cd;
+        color: #856404;
+    }
+    .score-poor {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .item-name {
+        font-weight: 600;
+        color: #667eea;
+    }
+    .difference {
+        font-size: 0.9em;
+        color: #666;
+    }
+    .thank-you-box {
+        text-align: center;
+        margin-top: 40px;
+        padding: 25px;
+        background: #f0f4ff;
+        border-radius: 10px;
+    }
+    .thank-you-box p {
+        font-size: 1.1em;
+        color: #555;
+        line-height: 1.6;
+    }
+    .emoji-large {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="results-container-beautiful">
+    <div class="results-content">
+        <div class="results-header">
+            <div class="emoji-large">🎉</div>
+            <h1>Experiment abgeschlossen!</h1>
+        </div>
+        
+        <div class="total-score-box">
+            <div class="score-label">Ihre Gesamtpunktzahl</div>
+            <div class="score-value">{{ total_score }}</div>
+            <div class="score-max">von maximal 400 Punkten</div>
+        </div>
+        
+        <h2 style="color: #667eea; margin-bottom: 20px;">📊 Detaillierte Ergebnisse</h2>
+        
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Gegenstand</th>
+                    <th>Ihre Schätzung</th>
+                    <th>Wahrer Wert</th>
+                    <th>Abweichung</th>
+                    <th>Punkte</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estimate in estimates %}
+                <tr>
+                    <td class="item-name">{{ estimate.item }}</td>
+                    <td>{{ estimate.estimate }} CHF</td>
+                    <td>{{ estimate.true_value }} CHF</td>
+                    <td class="difference">± {{ estimate.difference }} CHF</td>
+                    <td>
+                        {% if estimate.score >= 90 %}
+                            <span class="score-badge score-excellent">{{ estimate.score }} 🌟</span>
+                        {% elif estimate.score >= 70 %}
+                            <span class="score-badge score-good">{{ estimate.score }} ✓</span>
+                        {% elif estimate.score >= 50 %}
+                            <span class="score-badge score-ok">{{ estimate.score }}</span>
+                        {% else %}
+                            <span class="score-badge score-poor">{{ estimate.score }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="thank-you-box">
+            <p><strong>Vielen Dank für Ihre Teilnahme!</strong></p>
+            <p>Ihre Daten wurden erfolgreich gespeichert und helfen uns, interessante psychologische Effekte besser zu verstehen.</p>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- NIEDRIGE USABILITY VERSION -->
+<style>
+    .results-container-ugly {
+        max-width: 950px;
+        margin: 0 auto;
+        padding: 12px;
+        background: #bbb;
+        border: 5px ridge #888;
+    }
+    .ugly-results-header {
+        background: #444;
+        color: #ddd;
+        padding: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+        border: 2px solid #222;
+        margin-bottom: 15px;
+    }
+    .ugly-score-section {
+        background: #e0e0e0;
+        border: 3px double #777;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+    }
+    .ugly-score-section h2 {
+        font-family: 'Times New Roman', serif;
+        color: #000;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        text-decoration: underline;
+    }
+    .ugly-score-value {
+        font-size: 2.5em;
+        font-family: 'Courier New', monospace;
+        color: #000;
+        background: #fff;
+        border: 2px inset #999;
+        display: inline-block;
+        padding: 15px 40px;
+        margin: 10px 0;
+    }
+    .ugly-score-text {
+        font-size: 0.85em;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+    }
+    .ugly-data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+        background: #f5f5f5;
+        border: 2px solid #888;
+    }
+    .ugly-data-table th {
+        background: #666;
+        color: #fff;
+        padding: 8px;
+        border: 1px solid #444;
+        font-family: 'Arial', sans-serif;
+        font-size: 0.85em;
+        text-align: left;
+    }
+    .ugly-data-table td {
+        padding: 8px;
+        border: 1px solid #999;
+        font-family: 'Courier New', monospace;
+        font-size: 0.8em;
+        background: #fff;
+    }
+    .ugly-data-table tr:nth-child(even) td {
+        background: #f9f9f9;
+    }
+    .ugly-footer {
+        background: #d0d0d0;
+        border: 1px dashed #888;
+        padding: 12px;
+        margin-top: 15px;
+        font-family: 'Arial', sans-serif;
+        font-size: 0.8em;
+        color: #333;
+    }
+    .section-divider {
+        border-top: 2px solid #888;
+        margin: 20px 0;
+    }
+</style>
+
+<div class="results-container-ugly">
+    <div class="ugly-results-header">
+        === EXPERIMENT ABGESCHLOSSEN - ERGEBNISSE ===
+    </div>
+    
+    <div class="ugly-score-section">
+        <h2>GESAMTPUNKTZAHL</h2>
+        <div class="ugly-score-value">{{ total_score }}</div>
+        <div class="ugly-score-text">von maximal 400 Punkten erreicht</div>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <div style="background: #e8e8e8; padding: 10px; margin: 15px 0; border: 1px solid #999;">
+        <strong style="font-family: 'Arial', sans-serif; font-size: 0.9em;">DETAILLIERTE AUSWERTUNG:</strong>
+    </div>
+    
+    <table class="ugly-data-table">
+        <thead>
+            <tr>
+                <th>NR.</th>
+                <th>GEGENSTAND</th>
+                <th>SCHAETZUNG (CHF)</th>
+                <th>WERT (CHF)</th>
+                <th>DIFF. (CHF)</th>
+                <th>PUNKTE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estimate in estimates %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ estimate.item }}</td>
+                <td>{{ estimate.estimate }}</td>
+                <td>{{ estimate.true_value }}</td>
+                <td>{{ estimate.difference }}</td>
+                <td><strong>{{ estimate.score }}</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="ugly-footer">
+        <strong>HINWEIS:</strong> Das Experiment ist nun beendet. Ihre Daten wurden gespeichert.
+        <br>
+        Vielen Dank fuer Ihre Teilnahme an dieser Studie.
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

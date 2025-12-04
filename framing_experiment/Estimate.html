@@ -1,0 +1,348 @@
+{% load static %}
+
+{% block title %}Runde {{ round_number }}: {{ item_name }}{% endblock %}
+
+{% block content %}
+
+{% if high_usability %}
+<!-- HOHE USABILITY VERSION -->
+<style>
+    body {
+        background: #f5f7fa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .estimate-container-beautiful {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .estimate-content {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+    }
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        transition: width 0.3s ease;
+    }
+    .round-indicator {
+        text-align: center;
+        color: #667eea;
+        font-size: 0.9em;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+    h2 {
+        color: #667eea;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+    .image-container {
+        text-align: center;
+        margin: 30px 0;
+        padding: 20px;
+        background: #f8f9ff;
+        border-radius: 15px;
+    }
+    .image-container img {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .input-section {
+        margin: 40px 0;
+        padding: 30px;
+        background: #f0f4ff;
+        border-radius: 15px;
+        border-left: 5px solid #667eea;
+    }
+    .input-section label {
+        display: block;
+        font-size: 1.3em;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    .input-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .input-group input[type="number"] {
+        flex: 1;
+        padding: 15px 20px;
+        font-size: 1.3em;
+        border: 2px solid #667eea;
+        border-radius: 10px;
+        transition: all 0.3s;
+    }
+    .input-group input[type="number"]:focus {
+        outline: none;
+        border-color: #764ba2;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    .currency {
+        font-size: 1.3em;
+        color: #667eea;
+        font-weight: bold;
+    }
+    .submit-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 18px 50px;
+        font-size: 1.2em;
+        border-radius: 30px;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: block;
+        margin: 30px auto 0;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    .hint-text {
+        text-align: center;
+        color: #666;
+        font-size: 0.95em;
+        margin-top: 20px;
+        font-style: italic;
+    }
+    /* Style für oTree Formfields */
+    .otree-form-group {
+        margin: 0;
+    }
+    .otree-form-group label {
+        display: block;
+        font-size: 1.3em;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    .otree-form-group input {
+        flex: 1;
+        padding: 15px 20px;
+        font-size: 1.3em;
+        border: 2px solid #667eea;
+        border-radius: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="estimate-container-beautiful">
+    <div class="estimate-content">
+        <div class="round-indicator">Runde {{ round_number }} von 4</div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {% if round_number == 1 %}25%
+            {% elif round_number == 2 %}50%
+            {% elif round_number == 3 %}75%
+            {% else %}100%
+            {% endif %}"></div>
+        </div>
+        
+        <h2>{{ item_name }}</h2>
+        
+        <div class="image-container">
+            <img src="{% static image_path %}" alt="{{ item_name }}">
+        </div>
+        
+        <div class="input-section">
+            <div class="input-group">
+                {{ formfields }}
+                <span class="currency">CHF</span>
+            </div>
+        </div>
+        
+        <div class="hint-text">
+            💡 Überlegen Sie: Was würden Sie selbst für diesen Gegenstand bezahlen?
+        </div>
+        
+        {% next_button class="submit-btn" label="Schätzung abgeben →" %}
+    </div>
+</div>
+
+{% else %}
+<!-- NIEDRIGE USABILITY VERSION -->
+<style>
+    body {
+        background: #cccccc;
+        font-family: 'Times New Roman', serif;
+    }
+    .estimate-container-ugly {
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 10px;
+        background: #cdcdcd;
+        border: 4px double #777;
+    }
+    .ugly-title-bar {
+        background: #555;
+        color: #ddd;
+        padding: 5px 10px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85em;
+        margin-bottom: 10px;
+        border: 1px solid #333;
+    }
+    .ugly-main-content {
+        background: #e5e5e5;
+        padding: 15px;
+        border: 2px solid #999;
+    }
+    h3 {
+        font-family: 'Times New Roman', serif;
+        color: #000;
+        text-decoration: underline;
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+    .ugly-image-box {
+        background: #fff;
+        border: 3px ridge #888;
+        padding: 8px;
+        margin: 10px 0;
+        text-align: center;
+    }
+    .ugly-image-box img {
+        max-width: 90%;
+        max-height: 350px;
+        border: 1px solid #666;
+    }
+    .ugly-form-section {
+        background: #d8d8d8;
+        border: 2px inset #aaa;
+        padding: 15px;
+        margin: 15px 0;
+    }
+    .ugly-form-section label {
+        display: block;
+        font-family: 'Arial', sans-serif;
+        font-size: 0.9em;
+        color: #000;
+        margin-bottom: 8px;
+    }
+    .ugly-form-section input[type="number"] {
+        width: 200px;
+        padding: 6px;
+        border: 2px inset #999;
+        background: #fff;
+        font-family: 'Courier New', monospace;
+        font-size: 1.1em;
+    }
+    .ugly-submit {
+        background: #aaa;
+        border: 3px outset #bbb;
+        padding: 10px 25px;
+        font-size: 0.95em;
+        color: #000;
+        cursor: pointer;
+        font-family: 'Arial', sans-serif;
+        margin-top: 12px;
+    }
+    .ugly-submit:active {
+        border-style: inset;
+    }
+    .info-bar {
+        background: #f5f5f5;
+        border: 1px dashed #999;
+        padding: 8px;
+        margin: 10px 0;
+        font-size: 0.85em;
+        font-family: 'Arial', sans-serif;
+    }
+    table.ugly-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        background: #fff;
+    }
+    table.ugly-table td {
+        border: 1px solid #888;
+        padding: 5px;
+        font-size: 0.8em;
+    }
+    /* Style für oTree Formfields in ugly version */
+    .otree-form-group {
+        margin: 0;
+    }
+    .otree-form-group label {
+        display: block;
+        font-family: 'Arial', sans-serif;
+        font-size: 0.9em;
+        color: #000;
+        margin-bottom: 8px;
+    }
+    .otree-form-group input {
+        width: 200px;
+        padding: 6px;
+        border: 2px inset #999;
+        background: #fff;
+        font-family: 'Courier New', monospace;
+        font-size: 1.1em;
+    }
+</style>
+
+<div class="estimate-container-ugly">
+    <div class="ugly-title-bar">
+        SCHAETZUNGS-SYSTEM v1.0 - Runde {{ round_number }}/4
+    </div>
+    
+    <div class="ugly-main-content">
+        <h3>Gegenstand: {{ item_name }}</h3>
+        
+        <table class="ugly-table">
+            <tr>
+                <td><strong>Status:</strong></td>
+                <td>Gebraucht</td>
+                <td><strong>Fortschritt:</strong></td>
+                <td>{{ round_number }} von 4 Runden</td>
+            </tr>
+        </table>
+        
+        <div class="ugly-image-box">
+            <div style="font-size: 0.8em; margin-bottom: 5px; color: #555;">
+                [Bild wird geladen...]
+            </div>
+            <img src="{% static image_path %}" alt="{{ item_name }}">
+        </div>
+        
+        <div class="info-bar">
+            HINWEIS: Geben Sie Ihre Preisschaetzung in Schweizer Franken (CHF) ein. Verwenden Sie ganze Zahlen ohne Dezimalstellen.
+        </div>
+        
+        <div class="ugly-form-section">
+            {{ formfields }}
+            <span style="font-size: 0.85em; color: #555; margin-left: 10px;">(Wert zwischen 0 und 10000)</span>
+        </div>
+        
+        <div style="text-align: left; margin-top: 15px;">
+            {% next_button class="ugly-submit" label="ABSENDEN" %}
+        </div>
+        
+        <div style="font-size: 0.75em; color: #666; margin-top: 12px; border-top: 1px solid #999; padding-top: 8px;">
+            Nach dem Absenden koennen Sie Ihre Eingabe nicht mehr aendern.
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

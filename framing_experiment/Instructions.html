@@ -1,0 +1,217 @@
+{% block title %}Willkommen zum Experiment{% endblock %}
+
+{% block content %}
+
+{% if high_usability %}
+<!-- HOHE USABILITY VERSION -->
+<style>
+    .container-beautiful {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .content-box {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .instruction-text {
+        font-size: 1.2em;
+        line-height: 1.8;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .highlight-box {
+        background: #f0f4ff;
+        border-left: 5px solid #667eea;
+        padding: 20px;
+        margin: 25px 0;
+        border-radius: 8px;
+    }
+    .highlight-box strong {
+        color: #667eea;
+        font-size: 1.1em;
+    }
+    .emoji {
+        font-size: 1.5em;
+        margin-right: 10px;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.2em;
+        border-radius: 30px;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: block;
+        margin: 30px auto 0;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        text-decoration: none;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+</style>
+
+<div class="container-beautiful">
+    <div class="content-box">
+        <h1>🎯 Preisschätzungs-Spiel</h1>
+        
+        <div class="instruction-text">
+            <p><span class="emoji">👋</span> Herzlich willkommen zu unserem Experiment!</p>
+            
+            <p>In diesem Spiel werden Sie gebeten, den <strong>Marktwert von gebrauchten Gegenständen</strong> zu schätzen.</p>
+        </div>
+        
+        <div class="highlight-box">
+            <strong>🎲 Spielregeln:</strong>
+            <ul style="margin-top: 15px; line-height: 1.8;">
+                <li>Sie sehen 4 verschiedene gebrauchte Gegenstände</li>
+                <li>Schätzen Sie jeweils den realistischen Verkaufspreis</li>
+                <li>Je näher Ihre Schätzung am wahren Wert liegt, desto mehr Punkte erhalten Sie</li>
+            </ul>
+        </div>
+        
+        <div class="highlight-box">
+            <strong>🏆 Punktesystem:</strong>
+            <ul style="margin-top: 15px; line-height: 1.8;">
+                <li><strong>100 Punkte:</strong> Perfekte Schätzung! (0 CHF Abweichung)</li>
+                <li><strong>90 Punkte:</strong> Sehr gut (bis 50 CHF Abweichung)</li>
+                <li><strong>70 Punkte:</strong> Gut (bis 100 CHF Abweichung)</li>
+                <li><strong>50 Punkte:</strong> Okay (bis 200 CHF Abweichung)</li>
+            </ul>
+        </div>
+        
+        <div class="instruction-text" style="text-align: center; margin-top: 30px;">
+            <p><span class="emoji">💡</span> <strong>Tipp:</strong> Überlegen Sie sich, was Sie selbst für den Gegenstand bezahlen würden!</p>
+        </div>
+        
+        {% next_button class="btn-primary" %}
+    </div>
+</div>
+
+{% else %}
+<!-- NIEDRIGE USABILITY VERSION -->
+<style>
+    .container-ugly {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 15px;
+        background: #d4d4d4;
+        border: 3px solid #888;
+    }
+    .ugly-header {
+        background: #666;
+        color: #f0f0f0;
+        padding: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 1.1em;
+        border: 2px solid #444;
+        margin-bottom: 15px;
+    }
+    .ugly-text {
+        font-family: 'Times New Roman', serif;
+        font-size: 0.95em;
+        color: #222;
+        line-height: 1.4;
+        text-align: justify;
+        margin-bottom: 10px;
+    }
+    .ugly-list {
+        background: #e8e8e8;
+        border: 1px dashed #999;
+        padding: 12px 12px 12px 30px;
+        margin: 8px 0;
+    }
+    .ugly-list li {
+        margin-bottom: 5px;
+        font-size: 0.9em;
+    }
+    .ugly-button {
+        background: #999;
+        border: 2px outset #aaa;
+        padding: 8px 20px;
+        font-size: 1em;
+        color: #000;
+        cursor: pointer;
+        font-family: 'Arial', sans-serif;
+        margin-top: 15px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .ugly-button:hover {
+        background: #aaa;
+    }
+    table.info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+        background: #fff;
+    }
+    table.info-table td {
+        border: 1px solid #999;
+        padding: 8px;
+        font-size: 0.85em;
+    }
+</style>
+
+<div class="container-ugly">
+    <div class="ugly-header">
+        === EXPERIMENT: PREISSCHAETZUNG ===
+    </div>
+    
+    <div class="ugly-text">
+        Willkommen. In diesem Experiment werden Sie gebeten, Preise zu schaetzen. Es handelt sich um gebrauchte Gegenstaende. Ihre Aufgabe ist es, den Marktwert dieser Objekte moeglichst genau zu bestimmen. Die Genauigkeit Ihrer Schaetzung bestimmt Ihre Punktzahl.
+    </div>
+    
+    <table class="info-table">
+        <tr>
+            <td><strong>Anzahl Runden:</strong></td>
+            <td>4 Gegenstaende</td>
+        </tr>
+        <tr>
+            <td><strong>Aufgabe:</strong></td>
+            <td>Preis schaetzen</td>
+        </tr>
+        <tr>
+            <td><strong>Ziel:</strong></td>
+            <td>Hohe Punktzahl erreichen</td>
+        </tr>
+    </table>
+    
+    <div class="ugly-text">
+        <strong>Punkteverteilung:</strong>
+    </div>
+    <div class="ugly-list">
+        <ul>
+            <li>100 Punkte = 0 CHF Abweichung</li>
+            <li>90 Punkte = bis 50 CHF Abweichung</li>
+            <li>70 Punkte = bis 100 CHF Abweichung</li>
+            <li>50 Punkte = bis 200 CHF Abweichung</li>
+            <li>30 Punkte = bis 300 CHF Abweichung</li>
+            <li>Weniger Punkte = groessere Abweichung</li>
+        </ul>
+    </div>
+    
+    <div class="ugly-text">
+        Klicken Sie auf die Schaltflaeche unten um fortzufahren.
+    </div>
+    
+    {% next_button class="ugly-button" %}
+</div>
+{% endif %}
+
+{% endblock %}
