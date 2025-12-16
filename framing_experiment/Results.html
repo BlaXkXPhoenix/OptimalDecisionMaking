@@ -3,147 +3,169 @@
 {% block content %}
 
 {% if high_usability %}
-<!-- HOHE USABILITY VERSION -->
+<!-- EDLE VERSION -->
 <style>
-    .results-container-beautiful {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 40px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    body {
+        background: linear-gradient(135deg, #d4a574 0%, #c9986b 50%, #b8845a 100%);
+        font-family: 'Georgia', 'Times New Roman', serif;
+        margin: 0;
+        padding: 20px;
     }
-    .results-content {
-        background: white;
-        padding: 40px;
-        border-radius: 15px;
+    .results-container-elegant {
+        max-width: 1100px;
+        margin: 40px auto;
+        background: #ffffff;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
     }
-    .results-header {
+    .results-content-elegant {
+        padding: 60px 80px;
+    }
+    .results-header-elegant {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 50px;
     }
-    .results-header h1 {
-        color: #667eea;
+    .results-header-elegant h1 {
+        color: #9b7653;
         font-size: 2.5em;
-        margin-bottom: 10px;
+        font-weight: 400;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
     }
-    .total-score-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .emoji-large-elegant {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+    .total-score-elegant {
+        background: linear-gradient(135deg, #c9986b 0%, #b8845a 100%);
         color: white;
-        padding: 30px;
-        border-radius: 20px;
+        padding: 40px;
         text-align: center;
-        margin: 30px 0;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        margin: 40px 0;
+        box-shadow: 0 10px 30px rgba(201, 152, 107, 0.3);
     }
-    .total-score-box .score-label {
-        font-size: 1.2em;
-        opacity: 0.9;
-        margin-bottom: 10px;
-    }
-    .total-score-box .score-value {
-        font-size: 4em;
-        font-weight: bold;
-        margin: 10px 0;
-    }
-    .total-score-box .score-max {
+    .total-score-elegant .score-label-elegant {
         font-size: 1.1em;
-        opacity: 0.8;
+        opacity: 0.95;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
     }
-    .results-table {
+    .total-score-elegant .score-value-elegant {
+        font-size: 4.5em;
+        font-weight: 300;
+        margin: 15px 0;
+        letter-spacing: 3px;
+    }
+    .total-score-elegant .score-max-elegant {
+        font-size: 1.05em;
+        opacity: 0.9;
+    }
+    h2.details-title {
+        color: #9b7653;
+        margin: 50px 0 30px 0;
+        font-size: 1.8em;
+        font-weight: 400;
+        letter-spacing: 2px;
+    }
+    .results-table-elegant {
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
         margin: 30px 0;
         overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid #e8d5bf;
     }
-    .results-table thead {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .results-table-elegant thead {
+        background: linear-gradient(135deg, #c9986b 0%, #b8845a 100%);
         color: white;
     }
-    .results-table th {
-        padding: 15px;
+    .results-table-elegant th {
+        padding: 18px 15px;
         text-align: left;
-        font-weight: 600;
+        font-weight: 500;
+        font-size: 0.95em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
     }
-    .results-table td {
-        padding: 15px;
-        border-bottom: 1px solid #e0e0e0;
+    .results-table-elegant td {
+        padding: 18px 15px;
+        border-bottom: 1px solid #f0e6d8;
         background: white;
+        color: #3c3c3c;
     }
-    .results-table tbody tr:hover {
-        background: #f8f9ff;
+    .results-table-elegant tbody tr:hover {
+        background: #faf6f1;
     }
-    .results-table tbody tr:last-child td {
+    .results-table-elegant tbody tr:last-child td {
         border-bottom: none;
     }
-    .score-badge {
+    .score-badge-elegant {
         display: inline-block;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-weight: bold;
+        padding: 6px 18px;
+        border-radius: 3px;
+        font-weight: 500;
         font-size: 0.95em;
     }
-    .score-excellent {
+    .score-excellent-elegant {
         background: #d4edda;
         color: #155724;
     }
-    .score-good {
+    .score-good-elegant {
         background: #d1ecf1;
         color: #0c5460;
     }
-    .score-ok {
+    .score-ok-elegant {
         background: #fff3cd;
         color: #856404;
     }
-    .score-poor {
+    .score-poor-elegant {
         background: #f8d7da;
         color: #721c24;
     }
-    .item-name {
-        font-weight: 600;
-        color: #667eea;
+    .item-name-elegant {
+        font-weight: 500;
+        color: #9b7653;
     }
-    .difference {
+    .difference-elegant {
         font-size: 0.9em;
-        color: #666;
+        color: #7c7c7c;
     }
-    .thank-you-box {
+    .thank-you-elegant {
         text-align: center;
-        margin-top: 40px;
-        padding: 25px;
-        background: #f0f4ff;
-        border-radius: 10px;
+        margin-top: 50px;
+        padding: 35px;
+        background: #f5ebe0;
+        border-left: 4px solid #c9986b;
     }
-    .thank-you-box p {
+    .thank-you-elegant p {
         font-size: 1.1em;
-        color: #555;
-        line-height: 1.6;
+        color: #5c5c5c;
+        line-height: 1.8;
+        margin: 10px 0;
     }
-    .emoji-large {
-        font-size: 2em;
-        margin-bottom: 10px;
+    .thank-you-elegant strong {
+        color: #9b7653;
     }
 </style>
 
-<div class="results-container-beautiful">
-    <div class="results-content">
-        <div class="results-header">
-            <div class="emoji-large">🎉</div>
-            <h1>Experiment abgeschlossen!</h1>
+<div class="results-container-elegant">
+    <div class="results-content-elegant">
+        <div class="results-header-elegant">
+            <div class="emoji-large-elegant">🎉</div>
+            <h1>Experiment Abgeschlossen</h1>
         </div>
         
-        <div class="total-score-box">
-            <div class="score-label">Ihre Gesamtpunktzahl</div>
-            <div class="score-value">{{ total_score }}</div>
-            <div class="score-max">von maximal 400 Punkten</div>
+        <div class="total-score-elegant">
+            <div class="score-label-elegant">Ihre Gesamtpunktzahl</div>
+            <div class="score-value-elegant">{{ total_score }}</div>
+            <div class="score-max-elegant">von maximal 1000 Punkten</div>
         </div>
         
-        <h2 style="color: #667eea; margin-bottom: 20px;">📊 Detaillierte Ergebnisse</h2>
+        <h2 class="details-title">📊 Detaillierte Ergebnisse</h2>
         
-        <table class="results-table">
+        <table class="results-table-elegant">
             <thead>
                 <tr>
                     <th>Gegenstand</th>
@@ -156,19 +178,19 @@
             <tbody>
                 {% for estimate in estimates %}
                 <tr>
-                    <td class="item-name">{{ estimate.item }}</td>
+                    <td class="item-name-elegant">{{ estimate.item }}</td>
                     <td>{{ estimate.estimate }} CHF</td>
                     <td>{{ estimate.true_value }} CHF</td>
-                    <td class="difference">± {{ estimate.difference }} CHF</td>
+                    <td class="difference-elegant">± {{ estimate.difference }} CHF</td>
                     <td>
                         {% if estimate.score >= 90 %}
-                            <span class="score-badge score-excellent">{{ estimate.score }} 🌟</span>
+                            <span class="score-badge-elegant score-excellent-elegant">{{ estimate.score }} 🌟</span>
                         {% elif estimate.score >= 70 %}
-                            <span class="score-badge score-good">{{ estimate.score }} ✓</span>
+                            <span class="score-badge-elegant score-good-elegant">{{ estimate.score }} ✓</span>
                         {% elif estimate.score >= 50 %}
-                            <span class="score-badge score-ok">{{ estimate.score }}</span>
+                            <span class="score-badge-elegant score-ok-elegant">{{ estimate.score }}</span>
                         {% else %}
-                            <span class="score-badge score-poor">{{ estimate.score }}</span>
+                            <span class="score-badge-elegant score-poor-elegant">{{ estimate.score }}</span>
                         {% endif %}
                     </td>
                 </tr>
@@ -176,7 +198,7 @@
             </tbody>
         </table>
         
-        <div class="thank-you-box">
+        <div class="thank-you-elegant">
             <p><strong>Vielen Dank für Ihre Teilnahme!</strong></p>
             <p>Ihre Daten wurden erfolgreich gespeichert und helfen uns, interessante psychologische Effekte besser zu verstehen.</p>
         </div>

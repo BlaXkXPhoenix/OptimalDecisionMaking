@@ -5,178 +5,172 @@
 {% block content %}
 
 {% if high_usability %}
-<!-- HOHE USABILITY VERSION -->
+<!-- EDLE VERSION MIT GOLDENER SCHRIFT -->
 <style>
     body {
-        background: #f5f7fa;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #d4a574 0%, #c9986b 50%, #b8845a 100%);
+        font-family: 'Georgia', 'Times New Roman', serif;
+        margin: 0;
+        padding: 20px;
     }
-    .estimate-container-beautiful {
-        max-width: 900px;
+    .estimate-container-elegant {
+        max-width: 1000px;
         margin: 40px auto;
-        padding: 40px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        background: #ffffff;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
     }
-    .estimate-content {
-        background: white;
-        padding: 40px;
-        border-radius: 15px;
+    .estimate-content-elegant {
+        padding: 60px 80px;
     }
-    .progress-bar {
+    .progress-section {
+        margin-bottom: 40px;
+    }
+    .round-indicator-elegant {
+        text-align: center;
+        color: #c9986b;
+        font-size: 0.95em;
+        margin-bottom: 15px;
+        font-weight: 400;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+    .progress-bar-elegant {
         width: 100%;
-        height: 8px;
-        background: #e0e0e0;
-        border-radius: 10px;
+        height: 3px;
+        background: #e8d5bf;
         margin-bottom: 30px;
         overflow: hidden;
     }
-    .progress-fill {
+    .progress-fill-elegant {
         height: 100%;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
+        background: linear-gradient(90deg, #c9986b 0%, #b8845a 100%);
         transition: width 0.3s ease;
     }
-    .round-indicator {
+    h2.item-title {
+        color: #9b7653;
         text-align: center;
-        color: #667eea;
-        font-size: 0.9em;
-        margin-bottom: 10px;
-        font-weight: 600;
+        font-size: 2.2em;
+        margin-bottom: 40px;
+        font-weight: 400;
+        letter-spacing: 2px;
     }
-    h2 {
-        color: #667eea;
+    .image-container-elegant {
         text-align: center;
-        font-size: 2em;
-        margin-bottom: 30px;
-    }
-    .image-container {
-        text-align: center;
-        margin: 30px 0;
-        padding: 20px;
-        background: #f8f9ff;
-        border-radius: 15px;
-    }
-    .image-container img {
-        max-width: 100%;
-        max-height: 400px;
-        border-radius: 10px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .input-section {
         margin: 40px 0;
         padding: 30px;
-        background: #f0f4ff;
-        border-radius: 15px;
-        border-left: 5px solid #667eea;
+        background: #faf6f1;
+        border: 1px solid #e8d5bf;
     }
-    .input-section label {
+    .image-container-elegant img {
+        max-width: 100%;
+        max-height: 450px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .input-section-elegant {
+        margin: 50px 0;
+        padding: 40px;
+        background: #f5ebe0;
+        border-left: 4px solid #c9986b;
+    }
+    .input-section-elegant label {
         display: block;
-        font-size: 1.3em;
-        color: #333;
-        margin-bottom: 15px;
-        font-weight: 600;
+        font-size: 1.2em;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+        font-weight: 400;
     }
-    .input-group {
+    .input-group-elegant {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 20px;
     }
-    .input-group input[type="number"] {
-        flex: 1;
-        padding: 15px 20px;
-        font-size: 1.3em;
-        border: 2px solid #667eea;
-        border-radius: 10px;
-        transition: all 0.3s;
-    }
-    .input-group input[type="number"]:focus {
-        outline: none;
-        border-color: #764ba2;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    .currency {
-        font-size: 1.3em;
-        color: #667eea;
-        font-weight: bold;
-    }
-    .submit-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        padding: 18px 50px;
-        font-size: 1.2em;
-        border-radius: 30px;
-        color: white;
-        cursor: pointer;
-        transition: transform 0.2s;
-        display: block;
-        margin: 30px auto 0;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-    .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    }
-    .hint-text {
-        text-align: center;
-        color: #666;
-        font-size: 0.95em;
-        margin-top: 20px;
-        font-style: italic;
-    }
-    /* Style für oTree Formfields */
     .otree-form-group {
+        flex: 1;
         margin: 0;
     }
     .otree-form-group label {
-        display: block;
-        font-size: 1.3em;
-        color: #333;
-        margin-bottom: 15px;
-        font-weight: 600;
+        display: none;
     }
-    .otree-form-group input {
-        flex: 1;
-        padding: 15px 20px;
-        font-size: 1.3em;
-        border: 2px solid #667eea;
-        border-radius: 10px;
+    .otree-form-group input[type="number"] {
         width: 100%;
+        padding: 18px 25px;
+        font-size: 1.4em;
+        border: 2px solid #c9986b;
+        background: #ffffff;
+        color: #2c2c2c;
+        font-family: 'Georgia', serif;
+        transition: all 0.3s;
         box-sizing: border-box;
+    }
+    .otree-form-group input[type="number"]:focus {
+        outline: none;
+        border-color: #9b7653;
+        box-shadow: 0 0 0 3px rgba(201, 152, 107, 0.1);
+    }
+    .currency-elegant {
+        font-size: 1.4em;
+        color: #9b7653;
+        font-weight: 500;
+    }
+    .hint-elegant {
+        text-align: center;
+        color: #7c7c7c;
+        font-size: 1em;
+        margin-top: 25px;
+        font-style: italic;
+    }
+    .submit-btn-elegant {
+        background: linear-gradient(135deg, #c9986b 0%, #b8845a 100%);
+        border: none;
+        padding: 18px 50px;
+        font-size: 1.15em;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: block;
+        margin: 40px auto 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+        font-family: 'Georgia', serif;
+        box-shadow: 0 4px 15px rgba(201, 152, 107, 0.3);
+    }
+    .submit-btn-elegant:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(201, 152, 107, 0.5);
+        background: linear-gradient(135deg, #b8845a 0%, #a67350 100%);
     }
 </style>
 
-<div class="estimate-container-beautiful">
-    <div class="estimate-content">
-        <div class="round-indicator">Runde {{ round_number }} von 4</div>
-        
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: {% if round_number == 1 %}25%
-            {% elif round_number == 2 %}50%
-            {% elif round_number == 3 %}75%
-            {% else %}100%
-            {% endif %}"></div>
-        </div>
-        
-        <h2>{{ item_name }}</h2>
-        
-        <div class="image-container">
-            <img src="{% static image_path %}" alt="{{ item_name }}">
-        </div>
-        
-        <div class="input-section">
-            <div class="input-group">
-                {{ formfields }}
-                <span class="currency">CHF</span>
+<div class="estimate-container-elegant">
+    <div class="estimate-content-elegant">
+        <div class="progress-section">
+            <div class="round-indicator-elegant">Runde {{ round_number }} von 10</div>
+            <div class="progress-bar-elegant">
+                <div class="progress-fill-elegant" style="width: {{ round_number }}0%"></div>
             </div>
         </div>
         
-        <div class="hint-text">
+        <h2 class="item-title">{{ item_name }}</h2>
+        
+        <div class="image-container-elegant">
+            <img src="{% static image_path %}" alt="{{ item_name }}">
+        </div>
+        
+        <div class="input-section-elegant">
+            <label>Ihre Preisschätzung (in CHF):</label>
+            <div class="input-group-elegant">
+                {{ formfields }}
+                <span class="currency-elegant">CHF</span>
+            </div>
+        </div>
+        
+        <div class="hint-elegant">
             💡 Überlegen Sie: Was würden Sie selbst für diesen Gegenstand bezahlen?
         </div>
         
-        {% next_button class="submit-btn" label="Schätzung abgeben →" %}
+        {% next_button class="submit-btn-elegant" label="Schätzung abgeben" %}
     </div>
 </div>
 

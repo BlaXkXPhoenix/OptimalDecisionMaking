@@ -8,27 +8,41 @@ Experiment zu Framing- und Aesthetic-Usability-Effekten bei Preisschätzungen
 class C(BaseConstants):
     NAME_IN_URL = 'framing_experiment'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 4
+    NUM_ROUNDS = 10
     
     # Wahre Werte der Gegenstände (in CHF)
-    TRUE_VALUES = [450, 320, 280, 180]
+    TRUE_VALUES = [390, 210, 280, 180, 520, 450, 150, 450, 680, 280]
     
     # Gegenstandsnamen
-    ITEMS = ['Sofa', 'Schreibtisch', 'Fahrrad', 'Kommode']
+    ITEMS = ['Sessel', 'Couchtisch', 'Pfannen-Set', 'Rennvelo', 
+             'Esstisch', 'Sofa', 'Stehlampe', 'Strickpullover',
+             'Thermomix', 'KitchenAid']
     
     # Bildpfade (müssen im _static/framing_experiment/ Ordner liegen)
     IMAGES_FRAMED = [
+        'framing_experiment/armchair_beautiful.png',
+        'framing_experiment/coffee_table_beautiful.png',
+        'framing_experiment/pans_beautiful.png',
+        'framing_experiment/racebike_beautiful.png',
+        'framing_experiment/table_beautiful.png',
         'framing_experiment/sofa_beautiful.png',
-        'framing_experiment/desk_beautiful.jpeg',
-        'framing_experiment/bike_beautiful.jpeg',
-        'framing_experiment/dresser_beautiful.jpeg'
+        'framing_experiment/lamp_beautiful.png',
+        'framing_experiment/Strickpullover_ästhetisch.png',
+        'framing_experiment/Thermomix_pretty.png',
+        'framing_experiment/KitchenAid_pretty.png'
     ]
     
     IMAGES_UNFRAMED = [
+        'framing_experiment/armchair_plain.png',
+        'framing_experiment/coffee_table_plain.png',
+        'framing_experiment/pans_plain.png',
+        'framing_experiment/racebike_plain.png',
+        'framing_experiment/table_plain.png',
         'framing_experiment/sofa_plain.png',
-        'framing_experiment/desk_plain.jpeg',
-        'framing_experiment/bike_plain.jpeg',
-        'framing_experiment/dresser_plain.jpeg'
+        'framing_experiment/lamp_plain.png',
+        'framing_experiment/Strickpullover_unästhetisch.png',
+        'framing_experiment/Thermomix_ugly.png',
+        'framing_experiment/KitchenAid_ugly.png'
     ]
 
 
@@ -118,6 +132,10 @@ class Estimate(Page):
         player.true_value = C.TRUE_VALUES[round_num]
         player.item_name = C.ITEMS[round_num]
         
+        # DEBUG: Zeige den Bildpfad
+        print(f"DEBUG: Suche nach Bild: {image_path}")
+        print(f"DEBUG: Item: {C.ITEMS[round_num]}, Runde: {player.round_number}")
+        
         return dict(
             image_path=image_path,
             item_name=C.ITEMS[round_num],
@@ -172,7 +190,8 @@ class Results(Page):
         return dict(
             estimates=estimates,
             total_score=total_score,
-            high_usability=get_high_usability(player)
+            high_usability=get_high_usability(player),
+            framing=get_framing(player)
         )
 
 
