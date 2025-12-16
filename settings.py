@@ -4,7 +4,7 @@ SESSION_CONFIGS = [
     dict(
         name='framing_aesthetic',
         display_name='Framing & Aesthetic Usability Experiment',
-        num_demo_participants=28,
+        num_demo_participants=100,
         app_sequence=['framing_experiment'],
     ),
 ]
