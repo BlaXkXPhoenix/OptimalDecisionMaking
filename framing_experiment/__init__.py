@@ -51,21 +51,90 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
-    """Zufällige Zuweisung der Teilnehmer zu den 4 Experimentbedingungen"""
-    if subsession.round_number == 1:
-        # 4 Treatments: (framing, aesthetic_usability)
-        treatments = [
-            {'framing': True, 'high_usability': True},   # Gruppe 1
-            {'framing': True, 'high_usability': False},  # Gruppe 2
-            {'framing': False, 'high_usability': True},  # Gruppe 3
-            {'framing': False, 'high_usability': False}, # Gruppe 4
+    """
+    Hardcoded Rotation: Jede Gruppe hat eine feste Sequenz über 10 Runden
+    """
+    
+    # Hardcoded Sequenzen: [Framing, Usability] für jede Runde
+    # Jede Gruppe erlebt alle 4 Kombinationen mehrfach
+    GROUP_SEQUENCES = {
+        1: [  # Gruppe 1: Rotiert durch alle 4 Kombinationen
+            (False, False),  # R1: Ugly + Low
+            (False, True),   # R2: Ugly + High
+            (True, False),   # R3: Beautiful + Low
+            (True, True),    # R4: Beautiful + High
+            (False, False),  # R5: Ugly + Low
+            (False, True),   # R6: Ugly + High
+            (True, False),   # R7: Beautiful + Low
+            (True, True),    # R8: Beautiful + High
+            (False, False),  # R9: Ugly + Low
+            (False, True),   # R10: Ugly + High
+        ],
+        2: [  # Gruppe 2: Startet anders
+            (False, True),   # R1: Ugly + High
+            (True, False),   # R2: Beautiful + Low
+            (True, True),    # R3: Beautiful + High
+            (False, False),  # R4: Ugly + Low
+            (False, True),   # R5: Ugly + High
+            (True, False),   # R6: Beautiful + Low
+            (True, True),    # R7: Beautiful + High
+            (False, False),  # R8: Ugly + Low
+            (False, True),   # R9: Ugly + High
+            (True, False),   # R10: Beautiful + Low
+        ],
+        3: [  # Gruppe 3: Startet anders
+            (True, False),   # R1: Beautiful + Low
+            (True, True),    # R2: Beautiful + High
+            (False, False),  # R3: Ugly + Low
+            (False, True),   # R4: Ugly + High
+            (True, False),   # R5: Beautiful + Low
+            (True, True),    # R6: Beautiful + High
+            (False, False),  # R7: Ugly + Low
+            (False, True),   # R8: Ugly + High
+            (True, False),   # R9: Beautiful + Low
+            (True, True),    # R10: Beautiful + High
+        ],
+        4: [  # Gruppe 4: Startet anders
+            (True, True),    # R1: Beautiful + High
+            (False, False),  # R2: Ugly + Low
+            (False, True),   # R3: Ugly + High
+            (True, False),   # R4: Beautiful + Low
+            (True, True),    # R5: Beautiful + High
+            (False, False),  # R6: Ugly + Low
+            (False, True),   # R7: Ugly + High
+            (True, False),   # R8: Beautiful + Low
+            (True, True),    # R9: Beautiful + High
+            (False, False),  # R10: Ugly + Low
         ]
-        
+    }
+    
+    if subsession.round_number == 1:
+        # Weise jedem Spieler eine permanente Gruppe zu (1-4)
         for player in subsession.get_players():
-            # Zufällige Zuweisung
-            treatment = random.choice(treatments)
-            player.participant.vars['framing'] = treatment['framing']
-            player.participant.vars['high_usability'] = treatment['high_usability']
+            group_num = ((player.id_in_subsession - 1) % 4) + 1
+            player.participant.vars['experiment_group'] = group_num
+            print(f"\n{'='*60}")
+            print(f"🎯 SESSION SETUP: Player {player.id_in_subsession} → Gruppe {group_num}")
+            print(f"{'='*60}\n")
+    
+    # WICHTIG: Setze die Bedingungen DIREKT im Player-Objekt für diese Runde!
+    for player in subsession.get_players():
+        group_num = player.participant.vars['experiment_group']
+        round_num = subsession.round_number
+        
+        # Hole Bedingungen aus der hardcoded Sequenz
+        framing, usability = GROUP_SEQUENCES[group_num][round_num - 1]
+        
+        # Speichere DIREKT im Player-Objekt (nicht in participant.vars!)
+        player.framing_condition = framing
+        player.usability_condition = usability
+        player.experiment_group = group_num
+        
+        # Debug Output
+        print(f"ROUND {round_num}: Player {player.id_in_subsession} (Gruppe {group_num}) → "
+              f"Framing={'Beautiful ✨' if framing else 'Ugly 📦'}, "
+              f"Usability={'High ⭐' if usability else 'Low ⬇️'} "
+              f"[DIREKT in player.framing_condition={framing}, player.usability_condition={usability}]")
 
 
 class Group(BaseGroup):
@@ -88,17 +157,11 @@ class Player(BasePlayer):
     
     # Item Name für diese Runde
     item_name = models.StringField()
-
-
-# HELPER FUNCTIONS
-def get_framing(player: Player):
-    """Gibt den Framing-Status zurück"""
-    return player.participant.vars.get('framing', True)
-
-
-def get_high_usability(player: Player):
-    """Gibt den Usability-Status zurück"""
-    return player.participant.vars.get('high_usability', True)
+    
+    # Experimentbedingungen für diese Runde (für Datenanalyse)
+    framing_condition = models.BooleanField()  # True = Beautiful, False = Ugly
+    usability_condition = models.BooleanField()  # True = High, False = Low
+    experiment_group = models.IntegerField()  # 1-4
 
 
 # PAGES
@@ -110,7 +173,7 @@ class Instructions(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return dict(
-            high_usability=get_high_usability(player)
+            high_usability=player.usability_condition
         )
 
 
@@ -122,25 +185,47 @@ class Estimate(Page):
     def vars_for_template(player: Player):
         round_num = player.round_number - 1
         
-        # Bestimme das richtige Bild basierend auf Framing-Bedingung
-        if get_framing(player):
+        # LESE DIREKT AUS DEM PLAYER-OBJEKT (wurde in creating_session gesetzt!)
+        framing = player.framing_condition
+        usability = player.usability_condition
+        
+        # Bestimme das richtige Bild
+        if framing:
             image_path = C.IMAGES_FRAMED[round_num]
         else:
             image_path = C.IMAGES_UNFRAMED[round_num]
         
-        # Speichere Werte für die Auswertung
+        # Speichere andere Werte
         player.true_value = C.TRUE_VALUES[round_num]
         player.item_name = C.ITEMS[round_num]
         
-        # DEBUG: Zeige den Bildpfad
-        print(f"DEBUG: Suche nach Bild: {image_path}")
-        print(f"DEBUG: Item: {C.ITEMS[round_num]}, Runde: {player.round_number}")
+        # DEBUG
+        print(f"\n{'='*70}")
+        print(f"🎮 ESTIMATE PAGE - PLAYER {player.id_in_subsession} | RUNDE {player.round_number}")
+        print(f"{'='*70}")
+        print(f"📋 Gruppe: {player.experiment_group}")
+        print(f"")
+        print(f"🖼️  FRAMING (Bilder):")
+        print(f"     player.framing_condition = {framing}")
+        print(f"     → Zeigt: {'✨ BEAUTIFUL Bild' if framing else '📦 UGLY Bild'}")
+        print(f"     → Datei: {image_path}")
+        print(f"")
+        print(f"🎨 AESTHETIC USABILITY (Interface):")
+        print(f"     player.usability_condition = {usability}")
+        print(f"     → Zeigt: {'⭐ HIGH (goldenes Design)' if usability else '⬇️  LOW (graues Design)'}")
+        print(f"     → Template bekommt: high_usability={usability}")
+        print(f"")
+        if framing == usability:
+            print(f"⚠️  WARNUNG: Beide gleich! (sollte bei Gruppe 2 & 4 gemischt sein)")
+        else:
+            print(f"✅ GEMISCHT: Bild und Interface unterschiedlich!")
+        print(f"{'='*70}\n")
         
         return dict(
             image_path=image_path,
             item_name=C.ITEMS[round_num],
             round_number=player.round_number,
-            high_usability=get_high_usability(player)
+            high_usability=usability  # DIREKT aus player-Objekt!
         )
     
     @staticmethod
@@ -190,8 +275,8 @@ class Results(Page):
         return dict(
             estimates=estimates,
             total_score=total_score,
-            high_usability=get_high_usability(player),
-            framing=get_framing(player)
+            high_usability=player.usability_condition,
+            framing=player.framing_condition
         )
 
 
