@@ -9,6 +9,29 @@ SESSION_CONFIGS = [
     ),
 ]
 
+# ROOMS hinzufügen:
+ROOMS = [
+    dict(
+        name='gruppe1',
+        display_name='Gruppe 1',
+        participant_label_file='_rooms/gruppe1.txt',
+    ),
+    dict(
+        name='gruppe2',
+        display_name='Gruppe 2',
+        participant_label_file='_rooms/gruppe2.txt',
+    ),
+    dict(
+        name='gruppe3',
+        display_name='Gruppe 3',
+        participant_label_file='_rooms/gruppe3.txt',
+    ),
+    dict(
+        name='gruppe4',
+        display_name='Gruppe 4',
+        participant_label_file='_rooms/gruppe4.txt',
+    ),
+]
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
 # in SESSION_CONFIGS, except those that explicitly override it.
 # the session config can be accessed from methods in your apps as self.session.config,
