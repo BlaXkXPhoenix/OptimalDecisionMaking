@@ -232,7 +232,7 @@ class Estimate(Page):
     def before_next_page(player: Player, timeout_happened):
         # Berechne Score basierend auf Abweichung vom wahren Wert
         difference = abs(player.price_estimate - player.true_value)
-        
+
         # Score: Je kleiner die Abweichung, desto mehr Punkte
         # Max 100 Punkte wenn perfekt, 0 Punkte bei >500 CHF Abweichung
         if difference == 0:
@@ -245,9 +245,11 @@ class Estimate(Page):
             player.round_score = 50
         elif difference <= 300:
             player.round_score = 30
+        elif difference <= 500:
+            player.round_score = 10
         else:
-            player.round_score = max(0, 20 - (difference - 300) // 50)
-        
+            player.round_score = 0
+
         player.payoff = player.round_score
 
 
