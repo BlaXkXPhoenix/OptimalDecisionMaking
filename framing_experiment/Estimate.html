@@ -90,7 +90,11 @@
         margin: 0;
     }
     .otree-form-group label {
-        display: none;
+        display: block;
+        font-size: 1.2em;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+        font-weight: 400;
     }
     .otree-form-group input[type="number"] {
         width: 100%;
@@ -159,7 +163,6 @@
         </div>
 
         <div class="input-section-elegant">
-            <label>Your price estimate (in CHF):</label>
             <div class="input-group-elegant">
                 {{ formfields }}
                 <span class="currency-elegant">CHF</span>
@@ -180,10 +183,14 @@
     body {
         background: #cccccc;
         font-family: 'Times New Roman', serif;
+        min-height: 150vh;
     }
     .estimate-container-ugly {
         max-width: 950px;
-        margin: 20px auto;
+        margin-top: 50vh;
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
         padding: 10px;
         background: #cdcdcd;
         border: 4px double #777;
