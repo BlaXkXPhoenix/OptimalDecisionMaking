@@ -1,9 +1,9 @@
-{% block title %}Ihre Ergebnisse{% endblock %}
+{% block title %}Your Results{% endblock %}
 
 {% block content %}
 
 {% if high_usability %}
-<!-- EDLE VERSION -->
+<!-- ELEGANT VERSION -->
 <style>
     body {
         background: linear-gradient(135deg, #d4a574 0%, #c9986b 50%, #b8845a 100%);
@@ -154,25 +154,25 @@
     <div class="results-content-elegant">
         <div class="results-header-elegant">
             <div class="emoji-large-elegant">🎉</div>
-            <h1>Experiment Abgeschlossen</h1>
+            <h1>Experiment Completed</h1>
         </div>
-        
+
         <div class="total-score-elegant">
-            <div class="score-label-elegant">Ihre Gesamtpunktzahl</div>
+            <div class="score-label-elegant">Your Total Score</div>
             <div class="score-value-elegant">{{ total_score }}</div>
-            <div class="score-max-elegant">von maximal 1000 Punkten</div>
+            <div class="score-max-elegant">out of a maximum of 1000 points</div>
         </div>
-        
-        <h2 class="details-title">📊 Detaillierte Ergebnisse</h2>
-        
+
+        <h2 class="details-title">📊 Detailed Results</h2>
+
         <table class="results-table-elegant">
             <thead>
                 <tr>
-                    <th>Gegenstand</th>
-                    <th>Ihre Schätzung</th>
-                    <th>Wahrer Wert</th>
-                    <th>Abweichung</th>
-                    <th>Punkte</th>
+                    <th>Item</th>
+                    <th>Your Estimate</th>
+                    <th>True Value</th>
+                    <th>Deviation</th>
+                    <th>Points</th>
                 </tr>
             </thead>
             <tbody>
@@ -197,16 +197,16 @@
                 {% endfor %}
             </tbody>
         </table>
-        
+
         <div class="thank-you-elegant">
-            <p><strong>Vielen Dank für Ihre Teilnahme!</strong></p>
-            <p>Ihre Daten wurden erfolgreich gespeichert und helfen uns, interessante psychologische Effekte besser zu verstehen.</p>
+            <p><strong>Thank you for your participation!</strong></p>
+            <p>Your data has been successfully saved and helps us better understand interesting psychological effects.</p>
         </div>
     </div>
 </div>
 
 {% else %}
-<!-- NIEDRIGE USABILITY VERSION -->
+<!-- LOW USABILITY VERSION -->
 <style>
     .results-container-ugly {
         max-width: 950px;
@@ -296,30 +296,30 @@
 
 <div class="results-container-ugly">
     <div class="ugly-results-header">
-        === EXPERIMENT ABGESCHLOSSEN - ERGEBNISSE ===
+        === EXPERIMENT COMPLETED - RESULTS ===
     </div>
-    
+
     <div class="ugly-score-section">
-        <h2>GESAMTPUNKTZAHL</h2>
+        <h2>TOTAL SCORE</h2>
         <div class="ugly-score-value">{{ total_score }}</div>
-        <div class="ugly-score-text">von maximal 400 Punkten erreicht</div>
+        <div class="ugly-score-text">out of maximum 1000 points achieved</div>
     </div>
-    
+
     <div class="section-divider"></div>
-    
+
     <div style="background: #e8e8e8; padding: 10px; margin: 15px 0; border: 1px solid #999;">
-        <strong style="font-family: 'Arial', sans-serif; font-size: 0.9em;">DETAILLIERTE AUSWERTUNG:</strong>
+        <strong style="font-family: 'Arial', sans-serif; font-size: 0.9em;">DETAILED EVALUATION:</strong>
     </div>
-    
+
     <table class="ugly-data-table">
         <thead>
             <tr>
-                <th>NR.</th>
-                <th>GEGENSTAND</th>
-                <th>SCHAETZUNG (CHF)</th>
-                <th>WERT (CHF)</th>
+                <th>NO.</th>
+                <th>ITEM</th>
+                <th>ESTIMATE (CHF)</th>
+                <th>VALUE (CHF)</th>
                 <th>DIFF. (CHF)</th>
-                <th>PUNKTE</th>
+                <th>POINTS</th>
             </tr>
         </thead>
         <tbody>
@@ -335,11 +335,11 @@
             {% endfor %}
         </tbody>
     </table>
-    
+
     <div class="ugly-footer">
-        <strong>HINWEIS:</strong> Das Experiment ist nun beendet. Ihre Daten wurden gespeichert.
+        <strong>NOTE:</strong> The experiment is now finished. Your data has been saved.
         <br>
-        Vielen Dank fuer Ihre Teilnahme an dieser Studie.
+        Thank you for participating in this study.
     </div>
 </div>
 {% endif %}

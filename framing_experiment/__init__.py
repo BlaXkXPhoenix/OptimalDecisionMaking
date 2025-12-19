@@ -2,7 +2,7 @@ from otree.api import *
 import random
 
 doc = """
-Experiment zu Framing- und Aesthetic-Usability-Effekten bei Preisschätzungen
+Experiment on framing and aesthetic usability effects in price estimation
 """
 
 class C(BaseConstants):
@@ -10,15 +10,15 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 25  # 100 participants / 4 groups = 25 per group
     NUM_ROUNDS = 10
     
-    # Wahre Werte der Gegenstände (in CHF)
+    # True values of items (in CHF)
     TRUE_VALUES = [390, 210, 280, 180, 520, 450, 150, 450, 680, 280]
-    
-    # Gegenstandsnamen
-    ITEMS = ['Sessel', 'Couchtisch', 'Pfannen-Set', 'Rennvelo', 
-             'Esstisch', 'Sofa', 'Stehlampe', 'Strickpullover',
+
+    # Item names
+    ITEMS = ['Armchair', 'Coffee Table', 'Pan Set', 'Racing Bike',
+             'Dining Table', 'Sofa', 'Floor Lamp', 'Knit Sweater',
              'Thermomix', 'KitchenAid']
-    
-    # Bildpfade (müssen im _static/framing_experiment/ Ordner liegen)
+
+    # Image paths (must be in _static/framing_experiment/ folder)
     IMAGES_FRAMED = [
         'framing_experiment/armchair_beautiful.png',
         'framing_experiment/coffee_table_beautiful.png',
@@ -52,14 +52,14 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     """
-    Hardcoded Rotation: Jede Gruppe hat eine feste Sequenz über 10 Runden
-    Alle Spieler in derselben oTree-Gruppe sehen dieselben Bedingungen
+    Hardcoded Rotation: Each group has a fixed sequence across 10 rounds
+    All players in the same oTree group see the same conditions
     """
 
-    # Hardcoded Sequenzen: [Framing, Usability] für jede Runde
-    # Jede Gruppe erlebt alle 4 Kombinationen mehrfach
+    # Hardcoded sequences: [Framing, Usability] for each round
+    # Each group experiences all 4 combinations multiple times
     GROUP_SEQUENCES = {
-        1: [  # Gruppe 1: Rotiert durch alle 4 Kombinationen
+        1: [  # Group 1: Rotates through all 4 combinations
             (False, False),  # R1: Ugly + Low
             (False, True),   # R2: Ugly + High
             (True, False),   # R3: Beautiful + Low
@@ -71,7 +71,7 @@ def creating_session(subsession: Subsession):
             (False, False),  # R9: Ugly + Low
             (False, True),   # R10: Ugly + High
         ],
-        2: [  # Gruppe 2: Startet anders
+        2: [  # Group 2: Starts differently
             (False, True),   # R1: Ugly + High
             (True, False),   # R2: Beautiful + Low
             (True, True),    # R3: Beautiful + High
@@ -83,7 +83,7 @@ def creating_session(subsession: Subsession):
             (False, True),   # R9: Ugly + High
             (True, False),   # R10: Beautiful + Low
         ],
-        3: [  # Gruppe 3: Startet anders
+        3: [  # Group 3: Starts differently
             (True, False),   # R1: Beautiful + Low
             (True, True),    # R2: Beautiful + High
             (False, False),  # R3: Ugly + Low
@@ -95,7 +95,7 @@ def creating_session(subsession: Subsession):
             (True, False),   # R9: Beautiful + Low
             (True, True),    # R10: Beautiful + High
         ],
-        4: [  # Gruppe 4: Startet anders
+        4: [  # Group 4: Starts differently
             (True, True),    # R1: Beautiful + High
             (False, False),  # R2: Ugly + Low
             (False, True),   # R3: Ugly + High
@@ -109,17 +109,17 @@ def creating_session(subsession: Subsession):
         ]
     }
 
-    # Setze die Bedingungen basierend auf der oTree-Gruppe
-    # Alle Spieler in derselben Gruppe bekommen dieselben Bedingungen!
+    # Set conditions based on the oTree group
+    # All players in the same group get the same conditions!
     for group in subsession.get_groups():
-        # Verwende die oTree-Gruppen-ID (1-4) als Experiment-Gruppe
+        # Use the oTree group ID (1-4) as experimental group
         group_num = group.id_in_subsession
         round_num = subsession.round_number
 
-        # Hole Bedingungen aus der hardcoded Sequenz
+        # Get conditions from the hardcoded sequence
         framing, usability = GROUP_SEQUENCES[group_num][round_num - 1]
 
-        # Setze für ALLE Spieler in dieser Gruppe dieselben Bedingungen
+        # Set the same conditions for ALL players in this group
         for player in group.get_players():
             player.framing_condition = framing
             player.usability_condition = usability
@@ -137,23 +137,23 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    # Speichert die Preisschätzung des Spielers
+    # Stores the player's price estimate
     price_estimate = models.IntegerField(
         min=0,
         max=10000,
-        label="Ihre Preisschätzung (in CHF):"
+        label="Your price estimate (in CHF):"
     )
-    
-    # Score für diese Runde
+
+    # Score for this round
     round_score = models.IntegerField(initial=0)
-    
-    # Wahre Wert für diese Runde
+
+    # True value for this round
     true_value = models.IntegerField()
-    
-    # Item Name für diese Runde
+
+    # Item name for this round
     item_name = models.StringField()
-    
-    # Experimentbedingungen für diese Runde (für Datenanalyse)
+
+    # Experimental conditions for this round (for data analysis)
     framing_condition = models.BooleanField()  # True = Beautiful, False = Ugly
     usability_condition = models.BooleanField()  # True = High, False = Low
     experiment_group = models.IntegerField()  # 1-4
@@ -179,18 +179,18 @@ class Estimate(Page):
     @staticmethod
     def vars_for_template(player: Player):
         round_num = player.round_number - 1
-        
-        # LESE DIREKT AUS DEM PLAYER-OBJEKT (wurde in creating_session gesetzt!)
+
+        # READ DIRECTLY FROM PLAYER OBJECT (was set in creating_session!)
         framing = player.framing_condition
         usability = player.usability_condition
-        
-        # Bestimme das richtige Bild
+
+        # Determine the correct image
         if framing:
             image_path = C.IMAGES_FRAMED[round_num]
         else:
             image_path = C.IMAGES_UNFRAMED[round_num]
-        
-        # Speichere andere Werte
+
+        # Store other values
         player.true_value = C.TRUE_VALUES[round_num]
         player.item_name = C.ITEMS[round_num]
         
@@ -220,16 +220,16 @@ class Estimate(Page):
             image_path=image_path,
             item_name=C.ITEMS[round_num],
             round_number=player.round_number,
-            high_usability=usability  # DIREKT aus player-Objekt!
+            high_usability=usability  # DIRECTLY from player object!
         )
-    
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        # Berechne Score basierend auf Abweichung vom wahren Wert
+        # Calculate score based on deviation from true value
         difference = abs(player.price_estimate - player.true_value)
 
-        # Score: Je kleiner die Abweichung, desto mehr Punkte
-        # Max 100 Punkte wenn perfekt, 0 Punkte bei >500 CHF Abweichung
+        # Score: The smaller the deviation, the more points
+        # Max 100 points if perfect, 0 points if >500 CHF deviation
         if difference == 0:
             player.round_score = 100
         elif difference <= 50:
