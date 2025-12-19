@@ -11,7 +11,7 @@ class C(BaseConstants):
     NUM_ROUNDS = 10
     
     # True values of items (in CHF)
-    TRUE_VALUES = [390, 210, 280, 180, 520, 450, 150, 450, 680, 280]
+    TRUE_VALUES = [220, 120, 60, 2500, 450, 500, 160, 25, 650, 90]
 
     # Item names
     ITEMS = ['Armchair', 'Coffee Table', 'Pan Set', 'Racing Bike',
