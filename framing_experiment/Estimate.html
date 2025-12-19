@@ -1,11 +1,11 @@
 {% load static %}
 
-{% block title %}Runde {{ round_number }}: {{ item_name }}{% endblock %}
+{% block title %}Round {{ round_number }}: {{ item_name }}{% endblock %}
 
 {% block content %}
 
 {% if high_usability %}
-<!-- EDLE VERSION MIT GOLDENER SCHRIFT -->
+<!-- ELEGANT VERSION WITH GOLDEN TEXT -->
 <style>
     body {
         background: linear-gradient(135deg, #d4a574 0%, #c9986b 50%, #b8845a 100%);
@@ -146,36 +146,36 @@
 <div class="estimate-container-elegant">
     <div class="estimate-content-elegant">
         <div class="progress-section">
-            <div class="round-indicator-elegant">Runde {{ round_number }} von 10</div>
+            <div class="round-indicator-elegant">Round {{ round_number }} of 10</div>
             <div class="progress-bar-elegant">
                 <div class="progress-fill-elegant" style="width: {{ round_number }}0%"></div>
             </div>
         </div>
-        
+
         <h2 class="item-title">{{ item_name }}</h2>
-        
+
         <div class="image-container-elegant">
             <img src="{% static image_path %}" alt="{{ item_name }}">
         </div>
-        
+
         <div class="input-section-elegant">
-            <label>Ihre Preisschätzung (in CHF):</label>
+            <label>Your price estimate (in CHF):</label>
             <div class="input-group-elegant">
                 {{ formfields }}
                 <span class="currency-elegant">CHF</span>
             </div>
         </div>
-        
+
         <div class="hint-elegant">
-            💡 Überlegen Sie: Was würden Sie selbst für diesen Gegenstand bezahlen?
+            💡 Think: What would you pay for this item yourself?
         </div>
-        
-        {% next_button class="submit-btn-elegant" label="Schätzung abgeben" %}
+
+        {% next_button class="submit-btn-elegant" label="Submit estimate" %}
     </div>
 </div>
 
 {% else %}
-<!-- NIEDRIGE USABILITY VERSION -->
+<!-- LOW USABILITY VERSION -->
 <style>
     body {
         background: #cccccc;
@@ -297,43 +297,43 @@
 
 <div class="estimate-container-ugly">
     <div class="ugly-title-bar">
-        SCHAETZUNGS-SYSTEM v1.0 - Runde {{ round_number }}/4
+        ESTIMATION-SYSTEM v1.0 - Round {{ round_number }}/10
     </div>
-    
+
     <div class="ugly-main-content">
-        <h3>Gegenstand: {{ item_name }}</h3>
-        
+        <h3>Item: {{ item_name }}</h3>
+
         <table class="ugly-table">
             <tr>
                 <td><strong>Status:</strong></td>
-                <td>Gebraucht</td>
-                <td><strong>Fortschritt:</strong></td>
-                <td>{{ round_number }} von 4 Runden</td>
+                <td>Used</td>
+                <td><strong>Progress:</strong></td>
+                <td>{{ round_number }} of 10 rounds</td>
             </tr>
         </table>
-        
+
         <div class="ugly-image-box">
             <div style="font-size: 0.8em; margin-bottom: 5px; color: #555;">
-                [Bild wird geladen...]
+                [Image loading...]
             </div>
             <img src="{% static image_path %}" alt="{{ item_name }}">
         </div>
-        
+
         <div class="info-bar">
-            HINWEIS: Geben Sie Ihre Preisschaetzung in Schweizer Franken (CHF) ein. Verwenden Sie ganze Zahlen ohne Dezimalstellen.
+            NOTE: Enter your price estimate in Swiss Francs (CHF). Use whole numbers without decimals.
         </div>
-        
+
         <div class="ugly-form-section">
             {{ formfields }}
-            <span style="font-size: 0.85em; color: #555; margin-left: 10px;">(Wert zwischen 0 und 10000)</span>
+            <span style="font-size: 0.85em; color: #555; margin-left: 10px;">(Value between 0 and 10000)</span>
         </div>
-        
+
         <div style="text-align: left; margin-top: 15px;">
-            {% next_button class="ugly-submit" label="ABSENDEN" %}
+            {% next_button class="ugly-submit" label="SUBMIT" %}
         </div>
-        
+
         <div style="font-size: 0.75em; color: #666; margin-top: 12px; border-top: 1px solid #999; padding-top: 8px;">
-            Nach dem Absenden koennen Sie Ihre Eingabe nicht mehr aendern.
+            After submitting you cannot change your input anymore.
         </div>
     </div>
 </div>

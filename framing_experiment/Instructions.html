@@ -1,9 +1,9 @@
-{% block title %}Willkommen zum Experiment{% endblock %}
+{% block title %}Welcome to the Experiment{% endblock %}
 
 {% block content %}
 
 {% if high_usability %}
-<!-- EDLE VERSION MIT GOLDENER SCHRIFT -->
+<!-- ELEGANT VERSION WITH GOLDEN TEXT -->
 <style>
     body {
         background: linear-gradient(135deg, #d4a574 0%, #c9986b 50%, #b8845a 100%);
@@ -180,36 +180,36 @@
         
         <div class="title-section">
             <div class="title-label">TITLE</div>
-            <div class="welcome-text">. Herzlich willkommen zu unserem Experiment!</div>
+            <div class="welcome-text">Welcome to our experiment!</div>
         </div>
-        
+
         <p class="main-description">
-            In diesem Spiel werden Sie gebeten, den <strong>Marktwert von gebrauchten Gegenständen</strong> zu schätzen.
+            In this game, you will be asked to estimate the <strong>market value of used items</strong>.
         </p>
-        
+
         <div class="rules-box">
-            <h3>🎲 Spielregeln:</h3>
+            <h3>🎲 Game Rules:</h3>
             <ul>
-                <li>Sie sehen 10 verschiedene gebrauchte Gegenstände</li>
-                <li>Schätzen Sie jeweils den realistischen Verkaufspreis</li>
-                <li>Je näher Ihre Schätzung am wahren Wert liegt, desto mehr Punkte erhalten Sie</li>
+                <li>You will see 10 different used items</li>
+                <li>Estimate the realistic selling price for each</li>
+                <li>The closer your estimate is to the true value, the more points you receive</li>
             </ul>
         </div>
-        
+
         <div class="points-box">
-            <h3>🏆 Punktesystem:</h3>
+            <h3>🏆 Points System:</h3>
             <ul>
-                <li><strong>100 Punkte:</strong> Perfekte Schätzung! (0 CHF Abweichung)</li>
-                <li><strong>90 Punkte:</strong> Sehr gut (bis 50 CHF Abweichung)</li>
-                <li><strong>70 Punkte:</strong> Gut (bis 100 CHF Abweichung)</li>
-                <li><strong>50 Punkte:</strong> Okay (bis 200 CHF Abweichung)</li>
+                <li><strong>100 Points:</strong> Perfect estimate! (0 CHF deviation)</li>
+                <li><strong>90 Points:</strong> Very good (up to 50 CHF deviation)</li>
+                <li><strong>70 Points:</strong> Good (up to 100 CHF deviation)</li>
+                <li><strong>50 Points:</strong> Okay (up to 200 CHF deviation)</li>
             </ul>
         </div>
-        
+
         <div class="tip-section">
             <span class="tip-icon">💡</span>
             <div class="tip-text">
-                <strong>Tipp:</strong> Überlegen Sie sich, was Sie selbst für den Gegenstand bezahlen würden!
+                <strong>Tip:</strong> Think about what you would pay for the item yourself!
             </div>
         </div>
         
@@ -218,7 +218,7 @@
 </div>
 
 {% else %}
-<!-- NIEDRIGE USABILITY VERSION (bleibt wie vorher) -->
+<!-- LOW USABILITY VERSION -->
 <style>
     .container-ugly {
         max-width: 900px;
@@ -284,46 +284,46 @@
 
 <div class="container-ugly">
     <div class="ugly-header">
-        === EXPERIMENT: PREISSCHAETZUNG ===
+        === EXPERIMENT: PRICE ESTIMATION ===
     </div>
-    
+
     <div class="ugly-text">
-        Willkommen. In diesem Experiment werden Sie gebeten, Preise zu schaetzen. Es handelt sich um gebrauchte Gegenstaende. Ihre Aufgabe ist es, den Marktwert dieser Objekte moeglichst genau zu bestimmen. Die Genauigkeit Ihrer Schaetzung bestimmt Ihre Punktzahl.
+        Welcome. In this experiment you will be asked to estimate prices. These are used items. Your task is to determine the market value of these objects as accurately as possible. The accuracy of your estimation determines your score.
     </div>
-    
+
     <table class="info-table">
         <tr>
-            <td><strong>Anzahl Runden:</strong></td>
-            <td>10 Gegenstaende</td>
+            <td><strong>Number of rounds:</strong></td>
+            <td>10 items</td>
         </tr>
         <tr>
-            <td><strong>Aufgabe:</strong></td>
-            <td>Preis schaetzen</td>
+            <td><strong>Task:</strong></td>
+            <td>Estimate price</td>
         </tr>
         <tr>
-            <td><strong>Ziel:</strong></td>
-            <td>Hohe Punktzahl erreichen</td>
+            <td><strong>Goal:</strong></td>
+            <td>Achieve high score</td>
         </tr>
     </table>
-    
+
     <div class="ugly-text">
-        <strong>Punkteverteilung:</strong>
+        <strong>Points distribution:</strong>
     </div>
     <div class="ugly-list">
         <ul>
-            <li>100 Punkte = 0 CHF Abweichung</li>
-            <li>90 Punkte = bis 50 CHF Abweichung</li>
-            <li>70 Punkte = bis 100 CHF Abweichung</li>
-            <li>50 Punkte = bis 200 CHF Abweichung</li>
-            <li>30 Punkte = bis 300 CHF Abweichung</li>
-            <li>Weniger Punkte = groessere Abweichung</li>
+            <li>100 points = 0 CHF deviation</li>
+            <li>90 points = up to 50 CHF deviation</li>
+            <li>70 points = up to 100 CHF deviation</li>
+            <li>50 points = up to 200 CHF deviation</li>
+            <li>30 points = up to 300 CHF deviation</li>
+            <li>Fewer points = larger deviation</li>
         </ul>
     </div>
-    
+
     <div class="ugly-text">
-        Klicken Sie auf die Schaltflaeche unten um fortzufahren.
+        Click the button below to continue.
     </div>
-    
+
     {% next_button class="ugly-button" %}
 </div>
 {% endif %}
