@@ -7,7 +7,7 @@ Experiment on framing and aesthetic usability effects in price estimation
 
 class C(BaseConstants):
     NAME_IN_URL = 'framing_experiment'
-    PLAYERS_PER_GROUP = 25  # 100 participants / 4 groups = 25 per group
+    PLAYERS_PER_GROUP = None  # No oTree grouping needed
     NUM_ROUNDS = 10
     
     # True values of items (in CHF)
@@ -52,12 +52,12 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     """
-    Hardcoded Rotation: Each group has a fixed sequence across 10 rounds
-    All players in the same oTree group see the same conditions
+    Hardcoded Rotation: Each experimental group has a fixed sequence across 10 rounds
+    Players are assigned to experimental groups (1-4) based on their participant ID
     """
 
     # Hardcoded sequences: [Framing, Usability] for each round
-    # Each group experiences all 4 combinations multiple times
+    # Each experimental group experiences all 4 combinations multiple times
     GROUP_SEQUENCES = {
         1: [  # Group 1: Rotates through all 4 combinations
             (False, False),  # R1: Ugly + Low
@@ -109,27 +109,32 @@ def creating_session(subsession: Subsession):
         ]
     }
 
-    # Set conditions based on the oTree group
-    # All players in the same group get the same conditions!
-    for group in subsession.get_groups():
-        # Use the oTree group ID (1-4) as experimental group
-        group_num = group.id_in_subsession
+    # Assign experimental group in round 1 and persist it
+    if subsession.round_number == 1:
+        for player in subsession.get_players():
+            # Distribute players across 4 experimental groups using round-robin
+            exp_group = ((player.participant.id_in_session - 1) % 4) + 1
+            player.participant.vars['experiment_group'] = exp_group
+            print(f"🎯 SESSION SETUP: Participant {player.participant.id_in_session} → Experimental Group {exp_group}")
+
+    # Set conditions for this round based on assigned experimental group
+    for player in subsession.get_players():
+        exp_group = player.participant.vars['experiment_group']
         round_num = subsession.round_number
 
         # Get conditions from the hardcoded sequence
-        framing, usability = GROUP_SEQUENCES[group_num][round_num - 1]
+        framing, usability = GROUP_SEQUENCES[exp_group][round_num - 1]
 
-        # Set the same conditions for ALL players in this group
-        for player in group.get_players():
-            player.framing_condition = framing
-            player.usability_condition = usability
-            player.experiment_group = group_num
+        # Store conditions in player object for this round
+        player.framing_condition = framing
+        player.usability_condition = usability
+        player.experiment_group = exp_group
 
-            # Debug Output
-            print(f"ROUND {round_num}: Player {player.id_in_subsession} → "
-                  f"oTree-Gruppe {group_num} → "
-                  f"Framing={'Beautiful ✨' if framing else 'Ugly 📦'}, "
-                  f"Usability={'High ⭐' if usability else 'Low ⬇️'}")
+        # Debug Output
+        print(f"ROUND {round_num}: Participant {player.participant.id_in_session} → "
+              f"Exp Group {exp_group} → "
+              f"Framing={'Beautiful ✨' if framing else 'Ugly 📦'}, "
+              f"Usability={'High ⭐' if usability else 'Low ⬇️'}")
 
 
 class Group(BaseGroup):
