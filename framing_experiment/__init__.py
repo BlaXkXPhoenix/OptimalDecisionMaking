@@ -7,7 +7,7 @@ Experiment zu Framing- und Aesthetic-Usability-Effekten bei Preisschätzungen
 
 class C(BaseConstants):
     NAME_IN_URL = 'framing_experiment'
-    PLAYERS_PER_GROUP = None
+    PLAYERS_PER_GROUP = 25  # 100 participants / 4 groups = 25 per group
     NUM_ROUNDS = 10
     
     # Wahre Werte der Gegenstände (in CHF)
@@ -53,8 +53,9 @@ class Subsession(BaseSubsession):
 def creating_session(subsession: Subsession):
     """
     Hardcoded Rotation: Jede Gruppe hat eine feste Sequenz über 10 Runden
+    Alle Spieler in derselben oTree-Gruppe sehen dieselben Bedingungen
     """
-    
+
     # Hardcoded Sequenzen: [Framing, Usability] für jede Runde
     # Jede Gruppe erlebt alle 4 Kombinationen mehrfach
     GROUP_SEQUENCES = {
@@ -107,34 +108,28 @@ def creating_session(subsession: Subsession):
             (False, False),  # R10: Ugly + Low
         ]
     }
-    
-    if subsession.round_number == 1:
-        # Weise jedem Spieler eine permanente Gruppe zu (1-4)
-        for player in subsession.get_players():
-            group_num = ((player.id_in_subsession - 1) % 4) + 1
-            player.participant.vars['experiment_group'] = group_num
-            print(f"\n{'='*60}")
-            print(f"🎯 SESSION SETUP: Player {player.id_in_subsession} → Gruppe {group_num}")
-            print(f"{'='*60}\n")
-    
-    # WICHTIG: Setze die Bedingungen DIREKT im Player-Objekt für diese Runde!
-    for player in subsession.get_players():
-        group_num = player.participant.vars['experiment_group']
+
+    # Setze die Bedingungen basierend auf der oTree-Gruppe
+    # Alle Spieler in derselben Gruppe bekommen dieselben Bedingungen!
+    for group in subsession.get_groups():
+        # Verwende die oTree-Gruppen-ID (1-4) als Experiment-Gruppe
+        group_num = group.id_in_subsession
         round_num = subsession.round_number
-        
+
         # Hole Bedingungen aus der hardcoded Sequenz
         framing, usability = GROUP_SEQUENCES[group_num][round_num - 1]
-        
-        # Speichere DIREKT im Player-Objekt (nicht in participant.vars!)
-        player.framing_condition = framing
-        player.usability_condition = usability
-        player.experiment_group = group_num
-        
-        # Debug Output
-        print(f"ROUND {round_num}: Player {player.id_in_subsession} (Gruppe {group_num}) → "
-              f"Framing={'Beautiful ✨' if framing else 'Ugly 📦'}, "
-              f"Usability={'High ⭐' if usability else 'Low ⬇️'} "
-              f"[DIREKT in player.framing_condition={framing}, player.usability_condition={usability}]")
+
+        # Setze für ALLE Spieler in dieser Gruppe dieselben Bedingungen
+        for player in group.get_players():
+            player.framing_condition = framing
+            player.usability_condition = usability
+            player.experiment_group = group_num
+
+            # Debug Output
+            print(f"ROUND {round_num}: Player {player.id_in_subsession} → "
+                  f"oTree-Gruppe {group_num} → "
+                  f"Framing={'Beautiful ✨' if framing else 'Ugly 📦'}, "
+                  f"Usability={'High ⭐' if usability else 'Low ⬇️'}")
 
 
 class Group(BaseGroup):
